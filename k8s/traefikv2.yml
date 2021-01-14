@@ -38,10 +38,10 @@ metadata:
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: traefik-is-cr
+  name: traefik-cr
 subjects:
 - kind: ServiceAccount
-  name: traefik-ic-sa
+  name: traefik-sa
   namespace: default
 
 ---
@@ -58,7 +58,7 @@ metadata:
   name: traefik
   namespace: default
   labels:
-    k8s-app: traefik
+    app: traefik
 spec:
   replicas: 1
   selector:
@@ -115,7 +115,7 @@ spec:
   - host: "*.eu-west-1.elb.amazonaws.com"
     http:
       paths:
-      - path: /
+      - path: /dashboard
         backend:
           serviceName: traefik-service
           servicePort: dashboard

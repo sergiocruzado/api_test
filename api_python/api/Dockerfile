@@ -14,10 +14,13 @@ RUN python -m pip install -r requirements.txt
 
 
 WORKDIR /api
-ADD . /api
+ADD ./rest /api/rest
+ADD ./requirements.txt /api
+ADD ./Makefile /api
 
 # Switching to a non-root user
-RUN useradd appuser && chown -R appuser /api
+RUN apt-get update && apt-get install make && useradd appuser && chown -R appuser /api && mkdir /var/log/api && chown -R appuser /var/log/api
 USER appuser
 
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "rest.main:api"]
+CMD ["run"]
+ENTRYPOINT [ "make" ]
